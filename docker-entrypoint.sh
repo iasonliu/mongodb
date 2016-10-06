@@ -1,9 +1,24 @@
 #!/bin/sh
-# Docker entrypoint (pid 1), run as root
-[ "$1" = "mongod" ] || exec "$@" || exit $?
+set -m
 
-# Make sure that database is owned by user mongodb
-[ "$(stat -c %U /data/db)" = mongodb ] || chown -R mongodb /data/db
+mongodb_cmd="mongod --storageEngine $STORAGE_ENGINE"
+cmd="$mongodb_cmd --httpinterface --rest --master"
+if [ "$AUTH" == "yes" ]; then
+    cmd="$cmd --auth"
+fi
 
-# Drop root privilege (no way back), exec provided command as user mongodb
-exec su -s /bin/sh -c mongodb "$@"
+if [ "$JOURNALING" == "no" ]; then
+    cmd="$cmd --nojournal"
+fi
+
+if [ "$OPLOG_SIZE" != "" ]; then
+    cmd="$cmd --oplogSize $OPLOG_SIZE"
+fi
+
+$cmd &
+
+if [ ! -f /data/db/.mongodb_password_set ]; then
+    /set_password.sh
+fi
+
+fg
