@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/sh
 
 USER=${MONGODB_USER:-"admin"}
 DATABASE=${MONGODB_DATABASE:-"admin"}

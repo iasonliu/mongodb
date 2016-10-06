@@ -16,4 +16,4 @@ ADD docker-entrypoint.sh /entrypoint.sh
 ADD set_password.sh /set_password.sh
 
 EXPOSE 27017 28017
-CMD ["/entrypoint.sh"]
+CMD ["mongod"]
