@@ -6,8 +6,5 @@ RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositor
 
 VOLUME /data/db
 
-COPY docker-entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
-EXPOSE 27017 28017
+EXPOSE 27017
 CMD ["mongod"]
