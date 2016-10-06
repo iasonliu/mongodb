@@ -7,6 +7,7 @@ ENV JOURNALING yes
 
 RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
   apk add --no-cache mongodb && \
+  mkdir -p /data/db && \
   rm -rf /var/cache/apk/* && \
   rm -rf /usr/share/man
 
